@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <VulkanSDKRoot>c:\Program Files\VulkanSDK\1.0.61.1</VulkanSDKRoot>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="VulkanSDKRoot">
+      <Value>$(VulkanSDKRoot)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

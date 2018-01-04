@@ -1,0 +1,6 @@
+/_interm/*
+/_out/*
+/.vs/*
+/vkEngine.VC.db
+/vkEngine.VC.VC.opendb
+/vkEngine/shaders/bin/*
