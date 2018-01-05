@@ -7,7 +7,7 @@ The simulation framework capabilities:
 1. Old-fashioned linearized dynamics, meaning:
     * calculates constraint properties, such as effective mass, correction parameters, etc - twice per timestep, first time frictionless solve to estimate normal force, second time - full solve with friction limits; both solves use same MLCP solver;
     * uses canonical matrix form with decomposition (`[J]*[M]^-1*[J]^T + [D]`), and not applied form like Sequential/Split Impulses - to facilitate custom solvers implementation.
-1. MLCP solvers: **PGS**, **shuffled PGS** (shuffle types: random, forward/backward, leapfrog), **CG-based**.
+1. MLCP solvers: **PGS**, **shuffled PGS** (shuffle types: random, forward/backward, even-odd local, even-odd global, could also be more than just 2-tuple shuffle), **CG-based**.
 1. Local mass scaling (see below).
 1. Gyroscopic forces effect calculation - better handling of rotating oblong objects, enabling Dzhanibekov effect.
 1. Coupled rigid body and corotational FEM-based deformables simulation (see below).
