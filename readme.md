@@ -24,7 +24,7 @@ Technique, similar to shock propagation - allows to set mass scaling per joint (
 ## Preconditioned Conjugate Gradients MLCP solver
 Port from an earlier research collaboration (available [on github](https://github.com/avoroshilov/physics_fem_rbd) as well). Since it was developed to solve MLCPs - supports contacts with friction pyramid, limits, constraint forces boundaries, etc. Preconditioned using double-Jacobi preconditioner to maintain desired matrix properties. Solver that has better convergence characteristics than conventional Projected Gauss-Seidel.
 
-The solver is based on the `MPRGP` (Modified Proportioning with Reduced Gradient Projections) by **Z. Dostál**; we modified the original MPRGP to support box limits (low/high, instead of just lower limit), and incorporated preconditioner that is fairly cheap - double (left+right) Jacobi preconditioner. Solver also benefits from the J*M^-1*J^T decomposition that significantly speeds up matrix-vector multiplications.
+The solver is based on the `MPRGP` (Modified Proportioning with Reduced Gradient Projections) by **Z. Dostál**; we modified the original MPRGP to support box limits (low/high, instead of just lower limit), and incorporated preconditioner that is fairly cheap - double (left+right) Jacobi preconditioner. Solver also benefits from the `J*M^-1*J^T` decomposition that significantly speeds up matrix-vector multiplications.
 
 **Pros**:
 * Significantly better convergence characteristics
