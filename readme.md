@@ -7,7 +7,7 @@ The simulation framework capabilities:
 1. Old-fashioned linearized dynamics, meaning:
     * calculates constraint properties, such as effective mass, correction parameters, etc - twice per timestep, first time frictionless solve to estimate normal force, second time - full solve with friction limits; both solves use same MLCP solver;
     * uses canonical matrix form with decomposition (`[J]*[M]^-1*[J]^T + [D]`), and not applied form like Sequential/Split Impulses - to facilitate custom solvers implementation.
-1. MLCP solvers: **PGS**, **shuffled PGS** (shuffle types: random, forward/backward, even-odd local, even-odd global, could also be more than just 2-tuple shuffle), **CG-based**.
+1. MLCP solvers: **PGS**, **shuffled PGS** (shuffle types: random, forward/backward, even-odd local, even-odd global, could also be more than just 2-tuple shuffle), **CG-based** and **NNCG**.
 1. Local mass scaling (see below).
 1. Gyroscopic forces effect calculation - better handling of rotating oblong objects, enabling Dzhanibekov effect.
 1. Coupled rigid body and corotational FEM-based deformables simulation (see below).
@@ -39,11 +39,13 @@ These properties make it worse candidate than PGS for game-like scenarios when a
 
 Details of the maths behind the solver design available in the [project paper](https://github.com/avoroshilov/physics_fem_rbd/raw/master/materials/fem_paper.pdf).
 
-Example convergence of conventional PGS vs our CG-based MLCP solver - stiff FEM rod, made of `(48x2x1)*5=480` FEM tetrahedra, making total `2880` constraint rows. The amount of iterations is not equal, but set so that the total frametime is equal (16ms on ultrabook Core i7-6500U). Red is PGS 157 iterations, and Cyan is LCPCG 75 iterations (plus 15 iterations overhead for Power Iteration).
+Example convergence of conventional PGS vs our CG-based MLCP solver vs the NNCG (NNCG described in "A nonsmooth nonlinear conjugate gradient method for interactive contact force problems" by M. Silcowitz-Hansen et al.) - stiff FEM rod, made of `(48x2x1)*5=480` FEM tetrahedra, making total `2880` constraint rows. The amount of iterations is not equal, but set so that the total frametime is equal (20ms on ultrabook Core i7-6500U). Red is PGS 180 iterations, and Green is LCPCG 90 iterations (plus 15 iterations overhead for Power Iteration) and Blue is NNCG 127 iterations.
 
-<img src="materials/PGS_105iters_vs_LCPCG_50iters.png" alt="PGS 105i vs LCPCG 50i" width="400" />
+<img src="materials/PGS120_LCPCG60_NNCG85.png" alt="PGS 120i vs LCPCG 60i vs NNCG 85i" width="400" />
 
-This scene clearly shows advantage of CG-based solver in relatively complex systems.
+This scene clearly shows advantage of our CG-based solver over PGS in relatively complex systems.
+
+Our solver shows better results than NNCG as well; NNCG comes close, but our solver shows better convergence/stiffness, and will show much better results when optimized for parallel hardware (e.g., GPU), as NNCG depends on the PGS iteration, which would require either colorization or splitting, both ways have their drawbacks. On the other hand, NNCG is much simpler to implement, and seems to be more suitable for lower iteration count scenarios.
 
 ## FEM-based deformables w/ coupling
 As the PCG-based MLCP solver described above, port of the [earlier research collaboration](https://github.com/avoroshilov/physics_fem_rbd), which formulates corotational FEM joints, that connects 4 linear nodes (mass points), thus allowing the deformable bodies to be part of a single system with rigid bodies, and providing natural two-way coupling. Additional ball joint that connects rigid body and FE face (3 linear nodes) is implemented.
