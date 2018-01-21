@@ -16,6 +16,7 @@
 #include <physics/solver_pgs.h>
 #include <physics/solver_pgs_ordered.h>
 #include <physics/solver_lcpcg.h>
+#include <physics/solver_nncg.h>
 #include <physics/joints.h>
 #include <physics/hl_rigidbody.h>
 
@@ -563,6 +564,7 @@ int main()
 	//physics::SolverPGS FEMTestSolver(20, 1e-10f);
 	//physics::SolverPGSOrdered FEMTestSolver(20, 1e-10f);
 	physics::SolverLCPCG FEMTestSolver(20, 1e-10f);
+	//physics::SolverNNCG FEMTestSolver(40, 1e-10f);
 
 	FEMTestSolver.setInitialGuessCutFlag(false);
 	FEMTestSolver.setInitialGuessCutThreshold(0.0f);
